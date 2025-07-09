@@ -1,17 +1,41 @@
 from django.contrib import admin
-from .models import Usuario, Categoria, Post, Comentario
+from django.contrib.auth.admin import UserAdmin
+from .models import Usuario, Categoria, Post, Comentario, Etiqueta
 
-class UsuarioAdmin(admin.ModelAdmin):
-    """ Custom admin interface for Autor model """
-    #fields = ('id_autor', 'user', 'nombre', 'email', 'biografia')
-    list_display = ('id_autor', 'nombre', 'email', 'biografia')
-    search_fields = ('nombre', 'email')
-    list_filter = ('email','nombre')
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from .models import Usuario, Categoria, Post, Comentario, Etiqueta
 
-# Register your models here.
-admin.site.site_header = "Panel de Administración de MyBlog"
-admin.site.site_title = "MyBlog Admin"
-admin.site.register(Autor, AutorAdmin)
-admin.site.register(Categoria)
-admin.site.register(Post)
-admin.site.register(Comentario)
+class UsuarioAdmin(UserAdmin):
+    list_display = ('id', 'username', 'email', 'fecha_registro')
+    search_fields = ('username', 'email')
+    list_filter = ('fecha_registro',)
+
+class CategoriaAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nombre', 'descripcion')
+    search_fields = ('nombre',)
+    list_filter = ('nombre',)
+
+class EtiquetaAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nombre')
+    search_fields = ('nombre',)
+    list_filter = ('nombre',)
+
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('id', 'titulo', 'autor', 'categoria', 'fecha_publicacion')
+    search_fields = ('titulo', 'autor__username')
+    list_filter = ('categoria', 'autor')
+
+class ComentarioAdmin(admin.ModelAdmin):
+    list_display = ('id', 'post', 'autor', 'fecha_publicacion', 'activo')
+    search_fields = ('post__titulo', 'autor__username', 'contenido')
+    list_filter = ('activo', 'fecha_publicacion')
+
+admin.site.site_header = "Panel de Administración de Blog Dev News"
+admin.site.site_title = "Blog Dev News Admin"
+
+admin.site.register(Usuario, UsuarioAdmin)
+admin.site.register(Categoria, CategoriaAdmin)
+admin.site.register(Etiqueta, EtiquetaAdmin)
+admin.site.register(Post, PostAdmin)
+admin.site.register(Comentario, ComentarioAdmin)

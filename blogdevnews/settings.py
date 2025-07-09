@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'blogdevnewsapp',
 ]
 
 MIDDLEWARE = [
@@ -115,6 +116,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Modelo personalizado de usuario
+AUTH_USER_MODEL = 'blogdevnewsapp.Usuario'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
