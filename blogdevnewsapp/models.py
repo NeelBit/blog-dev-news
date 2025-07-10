@@ -31,8 +31,8 @@ class Post(models.Model):
     imagen = models.ImageField(upload_to='posts/', blank=True, null=True)
     # Solamente puede tener una categoría
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
-    """ # Puede tener varias etiquetas
-    etiquetas = models.ManyToManyField('Etiqueta', blank=True, related_name='posts') """
+    # Puede tener varias etiquetas
+    etiquetas = models.ManyToManyField('Etiqueta', blank=True, related_name='posts')
     # Para generar un slug único basado en el título (direccion url amigable)
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True)
 
@@ -74,7 +74,6 @@ class Comentario(models.Model):
 
 class Etiqueta(models.Model):
     nombre = models.CharField(max_length=255, unique=True)
-    posts = models.ManyToManyField(Post)
 
     def __str__(self):
         return self.nombre

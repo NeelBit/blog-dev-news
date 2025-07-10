@@ -2,10 +2,6 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import Usuario, Categoria, Post, Comentario, Etiqueta
 
-from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from .models import Usuario, Categoria, Post, Comentario, Etiqueta
-
 class UsuarioAdmin(UserAdmin):
     list_display = ('id', 'username', 'email', 'fecha_registro')
     search_fields = ('username', 'email')
@@ -22,9 +18,10 @@ class EtiquetaAdmin(admin.ModelAdmin):
     list_filter = ('nombre',)
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('id', 'titulo', 'autor', 'categoria', 'fecha_publicacion')
+    list_display = ('id', 'titulo', 'autor', 'contenido', 'categoria', 'fecha_publicacion', 'imagen', 'slug')
     search_fields = ('titulo', 'autor__username')
     list_filter = ('categoria', 'autor')
+    filter_horizontal = ('etiquetas',)  # Esto agrega un widget para seleccionar varias etiquetas
 
 class ComentarioAdmin(admin.ModelAdmin):
     list_display = ('id', 'post', 'autor', 'fecha_publicacion', 'activo')
