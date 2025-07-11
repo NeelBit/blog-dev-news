@@ -1,78 +1,163 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% comment %} css static {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% comment %} js static {% endcomment %}
+    <script src="{% static 'js/scripts.js' %}"></script>
+
     <!-- Include the Bulma CSS framework for styling -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
     <!-- Include Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+    
+    {% comment %} 
+    para producción, usar archivos estáticos
+    <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+    {% endcomment %}
+    
     <title>Blog Dev News</title>
 </head>
 <body>
     <!-- Hero principal -->
     <section class="hero is-dark is-bold is-medium" style="background: linear-gradient(90deg, #232526 0%, #414345 100%);">
-      <div class="hero-body">
-        <div class="container has-text-centered">
-          <h1 class="title is-1 has-text-white">
-            <i class="fas fa-microchip"></i> Blog Dev News
-          </h1>
-          <p class="subtitle is-4 has-text-light">
-            ¡Las últimas noticias y tendencias en <strong>tecnología</strong>!
-          </p>
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title is-1 has-text-white">
+                    <i class="fas fa-microchip"></i> Blog Dev News
+                </h1>
+                <p class="subtitle is-4 has-text-light">
+                    ¡Las últimas noticias y tendencias en <strong>tecnología</strong>!
+                </p>
+            </div>
         </div>
-      </div>
     </section>
 
-    <!-- Navbar mejorada -->
+    <!-- Navbar -->
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="{% url 'home' %}">
-            <i class="fas fa-home"></i>
+                <i class="fas fa-home"></i>
             </a>
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
             </a>
         </div>
+
         <div id="navbarMenu" class="navbar-menu">
             <div class="navbar-start">
-            <a class="navbar-item" href="{% url 'registro' %}"><i class="fas fa-user-plus"></i> Registro</a>
-            <a class="navbar-item" href="{% url 'acerca-de' %}"><i class="fas fa-info-circle"></i> Acerca</a>
-            <a class="navbar-item" href="{% url 'contacto' %}"><i class="fas fa-envelope"></i> Contacto</a>
+                <a class="navbar-item" href="{% url 'registro' %}"><i class="fas fa-user-plus"></i> Registro</a>
+                <a class="navbar-item" href="{% url 'acerca-de' %}"><i class="fas fa-info-circle"></i> Acerca</a>
+                <a class="navbar-item" href="{% url 'contacto' %}"><i class="fas fa-envelope"></i> Contacto</a>
             </div>
+
+            {% comment %} autenticación {% endcomment %}
             <div class="navbar-end">
-            {% if user.is_authenticated %}
-                <form method="post" action="{% url 'logout' %}" style="margin: 0;">
-                {% csrf_token %}
-                <button type="submit" class="button is-danger is-light is-small" style="margin: 8px;">
-                    <i class="fas fa-sign-out-alt"></i> Salir
-                </button>
-                </form>
-            {% else %}
-                <a class="navbar-item" href="{% url 'login' %}">
-                <button class="button is-link is-light is-small">
-                    <i class="fas fa-sign-in-alt"></i> Ingresar
-                </button>
-                </a>
-            {% endif %}
+                {% if user.is_authenticated %}
+                    <span class="navbar-item has-text-light">
+                        Hola, <strong>{{ user.username }}</strong>
+                    </span>
+                    <form method="post" action="{% url 'logout' %}" style="margin: 0;">
+                        {% csrf_token %}
+                        <button type="submit" class="button is-danger is-light is-small" style="margin: 8px;">
+                            <i class="fas fa-sign-out-alt"></i> Salir
+                        </button>
+                    </form>
+                {% else %}
+                    <a class="navbar-item" href="{% url 'login' %}">
+                        <button class="button is-link is-light is-small">
+                            <i class="fas fa-sign-in-alt"></i> Ingresar
+                        </button>
+                    </a>
+                {% endif %}
             </div>
         </div>
     </nav>
 
 
     <!-- Contenido principal -->
-    <section class="container">
-        {% comment %} <div class="columns is-centered"> {% endcomment %}
-
+    <div class="columns">
+        <div class="column is-8">
             {% block content %}
-            <!-- Aquí irán las cards de noticias, formularios, etc. -->
-            {% endblock content %}
+            <!-- contenido principal -->
+            {% endblock %}
+        </div>
 
-        {% comment %} </div> {% endcomment %}
-    </section>
+        <!-- Aside -->
+        <div class="column is-4">
+            <aside class="menu box" style="margin-top: 2rem;">
+                <!-- Buscador -->
+                <div class="field">
+                    <p class="control has-icons-left">
+                    <input class="input is-rounded" type="text" placeholder="Buscar...">
+                    <span class="icon is-left">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    </p>
+                </div>
+
+                <!-- Bio corta -->
+                <article class="media mb-4">
+                    <figure class="media-left">
+                        <p class="image is-64x64">
+                            <img class="is-rounded" src="{% static 'img/avatar.png' %}" alt="Avatar">
+                        </p>
+                    </figure>
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                            <strong>Blog Dev News</strong><br>
+                            Noticias, tutoriales y tendencias sobre tecnología y desarrollo.<br>
+                            <small>#Tech #Dev #Noticias</small>
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Categorías -->
+                <p class="menu-label">
+                    Categorías
+                </p>
+                <ul class="menu-list">
+                    <li><a href="#"><i class="fas fa-code"></i> Programación</a></li>
+                    <li><a href="#"><i class="fas fa-robot"></i> IA & Machine Learning</a></li>
+                    <li><a href="#"><i class="fas fa-mobile-alt"></i> Apps</a></li>
+                    <li><a href="#"><i class="fas fa-cloud"></i> Cloud</a></li>
+                    <li><a href="#"><i class="fas fa-gamepad"></i> Videojuegos</a></li>
+                </ul>
+
+                <!-- Últimas entradas -->
+                <p class="menu-label">
+                    Últimas entradas
+                </p>
+                <ul class="menu-list">
+                    <li><a href="#">¿Qué es Django y por qué usarlo?</a></li>
+                    <li><a href="#">Top 5 lenguajes para 2025</a></li>
+                    <li><a href="#">Cómo empezar con IA</a></li>
+                </ul>
+
+                <!-- Redes sociales -->
+                <p class="menu-label">
+                    Síguenos
+                </p>
+                <div class="buttons">
+                    <a class="button is-small is-link" href="#"><i class="fab fa-twitter"></i></a>
+                    <a class="button is-small is-dark" href="#"><i class="fab fa-github"></i></a>
+                    <a class="button is-small is-danger" href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+
 
     <!-- Footer -->
     <footer class="footer has-background-dark has-text-light">
@@ -85,17 +170,5 @@
             </p>
         </div>
     </footer>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const burger = document.querySelector('.navbar-burger');
-        const menu = document.getElementById(burger.dataset.target);
-
-        burger.addEventListener('click', () => {
-        burger.classList.toggle('is-active');
-        menu.classList.toggle('is-active');
-        });
-    });
-    </script>
 </body>
 </html>
