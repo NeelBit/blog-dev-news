@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Include the Bulma CSS framework for styling -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+    <title>Blog Dev News</title>
+</head>
+<body>
+    <header class="hero is-small is-success mb-4">
+        <div class="hero-body">
+            <h1 class="title is-1">
+                Blog Dev News
+            </h1>
+            <p class="subtitle is-4">
+                Blog de noticias de <strong>tecnología</strong>!
+            </p>
+        </div>
+            <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+        
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{% url 'home' %}">
+                <i class="fas fa-home"></i>
+            Blog Dev News
+            </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarMenu" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="{% url 'registro' %}">Registro</a>
+                <a class="navbar-item" href="{% url 'acerca-de' %}">Acerca</a>
+                <a class="navbar-item" href="{% url 'contacto' %}">Contacto</a>
+            </div>
+
+            <div class="navbar-end">
+                {% if user.is_authenticated %}
+
+                    {% comment %} <a class="navbar-item" href="{% url 'logout' %}">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Salir
+                    </a> {% endcomment %}
+
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="button is-danger is-small">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Salir
+                        </button>
+                    </form>
+
+                {% else %}
+                    <a class="navbar-item" href="{% url 'login' %}">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Ingresar 
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    </header>
+
+
+
+    <section class="container">
+        <div class="columns is-centered">
+
+            {% block content %}
+
+
+            {% endblock content %}
+
+        </div>
+    </section>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const burger = document.querySelector('.navbar-burger');
+        const menu = document.getElementById(burger.dataset.target);
+
+        burger.addEventListener('click', () => {
+        burger.classList.toggle('is-active');
+        menu.classList.toggle('is-active');
+        });
+    });
+    </script>
+</body>
+</html>
