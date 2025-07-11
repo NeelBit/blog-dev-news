@@ -11,76 +11,80 @@
     <title>Blog Dev News</title>
 </head>
 <body>
-    <header class="hero is-small is-success mb-4">
-        <div class="hero-body">
-            <h1 class="title is-1">
-                Blog Dev News
-            </h1>
-            <p class="subtitle is-4">
-                Blog de noticias de <strong>tecnología</strong>!
-            </p>
+    <!-- Hero principal -->
+    <section class="hero is-dark is-bold is-medium" style="background: linear-gradient(90deg, #232526 0%, #414345 100%);">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title is-1 has-text-white">
+            <i class="fas fa-microchip"></i> Blog Dev News
+          </h1>
+          <p class="subtitle is-4 has-text-light">
+            ¡Las últimas noticias y tendencias en <strong>tecnología</strong>!
+          </p>
         </div>
-            <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
-        
+      </div>
+    </section>
+
+    <!-- Navbar mejorada -->
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="{% url 'home' %}">
-                <i class="fas fa-home"></i>
-            Blog Dev News
+            <i class="fas fa-home"></i>
             </a>
-
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
             </a>
         </div>
-
         <div id="navbarMenu" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item" href="{% url 'registro' %}">Registro</a>
-                <a class="navbar-item" href="{% url 'acerca-de' %}">Acerca</a>
-                <a class="navbar-item" href="{% url 'contacto' %}">Contacto</a>
+            <a class="navbar-item" href="{% url 'registro' %}"><i class="fas fa-user-plus"></i> Registro</a>
+            <a class="navbar-item" href="{% url 'acerca-de' %}"><i class="fas fa-info-circle"></i> Acerca</a>
+            <a class="navbar-item" href="{% url 'contacto' %}"><i class="fas fa-envelope"></i> Contacto</a>
             </div>
-
             <div class="navbar-end">
-                {% if user.is_authenticated %}
-
-                    {% comment %} <a class="navbar-item" href="{% url 'logout' %}">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Salir
-                    </a> {% endcomment %}
-
-                    <form method="post" action="{% url 'logout' %}">
-                        {% csrf_token %}
-                        <button type="submit" class="button is-danger is-small">
-                            <i class="fas fa-sign-out-alt"></i>
-                            Salir
-                        </button>
-                    </form>
-
-                {% else %}
-                    <a class="navbar-item" href="{% url 'login' %}">
-                        <i class="fas fa-sign-in-alt"></i>
-                        Ingresar 
-                    </a>
-                {% endif %}
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}" style="margin: 0;">
+                {% csrf_token %}
+                <button type="submit" class="button is-danger is-light is-small" style="margin: 8px;">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </button>
+                </form>
+            {% else %}
+                <a class="navbar-item" href="{% url 'login' %}">
+                <button class="button is-link is-light is-small">
+                    <i class="fas fa-sign-in-alt"></i> Ingresar
+                </button>
+                </a>
+            {% endif %}
             </div>
         </div>
     </nav>
-    </header>
 
 
-
+    <!-- Contenido principal -->
     <section class="container">
-        <div class="columns is-centered">
+        {% comment %} <div class="columns is-centered"> {% endcomment %}
 
             {% block content %}
-
-
+            <!-- Aquí irán las cards de noticias, formularios, etc. -->
             {% endblock content %}
 
-        </div>
+        {% comment %} </div> {% endcomment %}
     </section>
+
+    <!-- Footer -->
+    <footer class="footer has-background-dark has-text-light">
+        <div class="content has-text-centered">
+            <p>
+            <strong>Blog Dev News</strong> &copy; {{ year }} | Hecho con <i class="fas fa-heart has-text-danger"></i> y <i class="fas fa-code"></i> por grupo 11 del Informatorio.
+            </p>
+            <p>
+            <a href="https://github.com/" target="_blank" class="has-text-light"><i class="fab fa-github"></i> GitHub</a>
+            </p>
+        </div>
+    </footer>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
